@@ -1,4 +1,4 @@
-package logging.practice.arts.loggingdemo;
+package org.arts.practice.loggingdemo;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
