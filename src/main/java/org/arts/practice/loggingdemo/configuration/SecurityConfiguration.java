@@ -35,12 +35,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth)
             throws Exception {
-/*        auth.
-                jdbcAuthentication()
-                .usersByUsernameQuery(usersQuery)
-                .authoritiesByUsernameQuery(rolesQuery)
-                .dataSource(dataSource)
-                .passwordEncoder(bCryptPasswordEncoder);*/
         auth.inMemoryAuthentication()
                 .withUser("admin").password(bCryptPasswordEncoder.encode("adminPass")).roles("ADMIN")
                 .and()
@@ -50,19 +44,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
-                .exceptionHandling()
-//                .authenticationEntryPoint(restAuthenticationEntryPoint)
+                .httpBasic()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/student/*").hasRole("ADMIN")
-                .antMatchers("/api/admin/**").hasRole("ADMIN")
+                .antMatchers("/student/**")
+                .hasRole("USER")
+                .antMatchers("/**")
+                .hasRole("ADMIN")
                 .and()
-                .formLogin()
-/*                .successHandler(mySuccessHandler)
-                .failureHandler(myFailureHandler)*/
-                .and()
-                .logout();
+                .csrf()
+                .disable()
+                .headers()
+                .frameOptions()
+                .disable();
     }
 
     @Override
