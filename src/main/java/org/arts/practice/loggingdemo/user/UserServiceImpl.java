@@ -10,7 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
-@Service("userService")
+/*@Service("userService")
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -35,4 +35,4 @@ public class UserServiceImpl implements UserService {
         user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
         userRepository.save(user);
     }
-}
+}*/
