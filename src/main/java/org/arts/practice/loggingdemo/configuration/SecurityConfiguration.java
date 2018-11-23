@@ -39,9 +39,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         //         .withUser("admin").password(bCryptPasswordEncoder.encode("adminPass")).roles("ADMIN")
         //         .and()
         //         .withUser("user").password(bCryptPasswordEncoder.encode("userPass")).roles("USER");
-        System.out.println("userQuery = " + usersQuery);
-        System.out.println("rolesQuery = " + rolesQuery);
-
         auth.
                 jdbcAuthentication()
                 .usersByUsernameQuery(usersQuery)
@@ -53,23 +50,23 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//        http
-//                .httpBasic()
-//                .and()
-//                .authorizeRequests()
-//                .antMatchers("/student/**")
-//                .hasRole("USER")
-//                .antMatchers("/**")
-//                .hasRole("ADMIN")
-//                .and()
-//                .csrf()
-//                .disable()
-//                .headers()
-//                .frameOptions()
-//                .disable();
-        http.authorizeRequests().anyRequest().hasAnyRole("ADMIN", "USER")
+        http
+                .httpBasic()
                 .and()
-                .httpBasic();
+                .authorizeRequests()
+                .antMatchers("/student/**")
+                .hasRole("USER")
+                .antMatchers("/**")
+                .hasRole("ADMIN")
+                .and()
+                .csrf()
+                .disable()
+                .headers()
+                .frameOptions()
+                .disable();
+/*        http.authorizeRequests().anyRequest().hasAnyRole("ADMIN", "USER")
+                .and()
+                .httpBasic();*/
     }
 
     @Override
