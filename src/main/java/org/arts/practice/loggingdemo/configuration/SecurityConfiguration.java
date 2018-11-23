@@ -35,28 +35,41 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth)
             throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("admin").password(bCryptPasswordEncoder.encode("adminPass")).roles("ADMIN")
-                .and()
-                .withUser("user").password(bCryptPasswordEncoder.encode("userPass")).roles("USER");
+        // auth.inMemoryAuthentication()
+        //         .withUser("admin").password(bCryptPasswordEncoder.encode("adminPass")).roles("ADMIN")
+        //         .and()
+        //         .withUser("user").password(bCryptPasswordEncoder.encode("userPass")).roles("USER");
+        System.out.println("userQuery = " + usersQuery);
+        System.out.println("rolesQuery = " + rolesQuery);
+
+        auth.
+                jdbcAuthentication()
+                .usersByUsernameQuery(usersQuery)
+                .authoritiesByUsernameQuery(rolesQuery)
+                .dataSource(dataSource)
+                .rolePrefix("ROLE_")
+                .passwordEncoder(bCryptPasswordEncoder);
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .httpBasic()
+//        http
+//                .httpBasic()
+//                .and()
+//                .authorizeRequests()
+//                .antMatchers("/student/**")
+//                .hasRole("USER")
+//                .antMatchers("/**")
+//                .hasRole("ADMIN")
+//                .and()
+//                .csrf()
+//                .disable()
+//                .headers()
+//                .frameOptions()
+//                .disable();
+        http.authorizeRequests().anyRequest().hasAnyRole("ADMIN", "USER")
                 .and()
-                .authorizeRequests()
-                .antMatchers("/student/**")
-                .hasRole("USER")
-                .antMatchers("/**")
-                .hasRole("ADMIN")
-                .and()
-                .csrf()
-                .disable()
-                .headers()
-                .frameOptions()
-                .disable();
+                .httpBasic();
     }
 
     @Override

@@ -15,13 +15,19 @@ http://www.springboottutorial.com/securing-rest-services-with-spring-boot-starte
 
 https://jaxenter.com/rest-api-spring-java-8-112289.html
 
+https://www.boraji.com/spring-security-5-jdbc-based-authentication-example
+
 curl -u user:ad3792c6-a3ea-4e76-89e5-163dd63991c5 http://localhost:8080/student/10001
 
 ▶ curl http://localhost:8080/student/10001
 {"timestamp":"2018-11-21T15:26:51.884+0000","status":401,"error":"Unauthorized","message":"Unauthorized","path":"/student/10001"}%
 
 ▶ curl -u user:userPass http://localhost:8080/student/10001
+▶ http --auth user:userPass http://localhost:8080/student/10001
 {"id":10001,"name":"Ranga","passportNumber":"E1234567"}%
 
+curl -u John:123 http://localhost:8080/student/10001
+ 
 ▶ curl -u admin:adminPass http://localhost:8080/student/10001
+▶ http --auth John:123 http://localhost:8080/student/10001
 {"timestamp":"2018-11-21T15:27:31.221+0000","status":403,"error":"Forbidden","message":"Forbidden","path":"/student/10001"}%
